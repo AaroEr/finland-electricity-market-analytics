@@ -69,3 +69,36 @@ production, and price
 month, season, weekend flag)
 
 This structure makes it easy to build reports and calculations in Power BI.
+
+## Screenshots
+
+### Overview
+![Overview page](docs/overview.png)
+
+### Time Patterns
+![Time patterns page](docs/time_patterns.png)
+
+### Price Analysis
+![Price analysis page](docs/price_analysis.png)
+
+## Challenges
+
+Some real problems came up while building this project, and solving them 
+was part of what I learned:
+
+- **Resolution change in the price data**: In October 2025, Nordic 
+electricity markets switched from hourly to 15-minute price resolution. 
+This meant September 2025 data had a different structure than the rest, 
+so it was excluded to keep the dataset consistent.
+
+- **Missing data points in the API response**: The ENTSO-E API skips a 
+data point if the price stays the same as the previous one, instead of 
+repeating it. This had to be handled by calculating the expected number 
+of points from the time period and filling in the missing values.
+
+- **Duplicate rows at request boundaries**: Splitting a full year of 
+requests into monthly chunks caused some days to be fetched twice. This 
+was solved by removing duplicates based on timestamp.
+
+- **Rate limits**: Both APIs limit how many requests can be made per 
+second, so the code adds short delays between requests.
